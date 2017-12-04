@@ -33,5 +33,26 @@ def classify0(inX, dataset, labels, k):
     return sorted_class_count[0][0]
 
 
-g, l = create_dataset()
-print(classify0([1, 1], g, l, 3))
+# g, l = create_dataset()
+# print(classify0([1, 1], g, l, 3))
+
+
+# 读取训练例子
+# 这个例子不够简洁，其实只需要读一次文件构造出结果即可，不过暂时按书上写
+def file2matrix(filename):
+    f = open(filename)
+    rows = len(f.readlines())
+    mat = zeros((rows, 3))
+    class_label_vector = []
+    f = open(filename)
+    index = 0
+    for line in f.readlines():
+        line = line.strip()
+        lines = line.split('\t')
+        mat[index, :] = lines[0:3]
+        class_label_vector.append(int(lines[-1]))
+        index += 1
+    return mat, class_label_vector
+
+
+file2matrix('/datingTestSet.txt')
