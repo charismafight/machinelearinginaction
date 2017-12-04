@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
 from numpy import *
 import operator
 
@@ -19,10 +21,17 @@ def classify0(inX, dataset, labels, k):
     sq_dis = sq_diff_mat.sum(axis=1)
     # 加完后求开平方
     dis = sq_dis**0.5
-    # 排序距离结果
+    # 排序距离结果,索引值
     sorted_dis = dis.argsort()
-    print(sorted_dis)
+    class_count = {}
+    # 计算前k个里面每一类别出现的次数
+    for i in range(k):
+        v = labels[sorted_dis[i]]
+        class_count[v] = class_count.get(v, 0) + 1
+    sorted_class_count = sorted(
+        class_count.items(), key=operator.itemgetter(1), reverse=True)
+    return sorted_class_count[0][0]
 
 
 g, l = create_dataset()
-classify0([0, 0], g, l, 3)
+print(classify0([1, 1], g, l, 3))
