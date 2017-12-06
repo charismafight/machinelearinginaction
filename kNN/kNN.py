@@ -1,7 +1,10 @@
-#!/usr/bin/python
 # -*- coding: utf8 -*-
 from numpy import *
 import operator
+import os.path as path
+import os
+import matplotlib
+from matplotlib import pyplot as plt
 
 
 def create_dataset():
@@ -55,4 +58,10 @@ def file2matrix(filename):
     return mat, class_label_vector
 
 
-file2matrix('/datingTestSet.txt')
+# print(file2matrix(path.join(os.sys.path[0],'datingTestSet2.txt')))
+
+mat, labels = file2matrix(path.join(os.sys.path[0], 'datingTestSet2.txt'))
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(mat[:,1], mat[:,2], 15 * array(labels), 15 * array(labels))
+plt.show()

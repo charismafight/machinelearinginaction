@@ -1,2 +1,12 @@
 # machinelearinginaction
-codes for machinelearning
+codes for machinelearn[ing in action](https://www.manning.com/books/machine-learning-in-action)
+
+dependencies:
+numpy
+matplotlib
+
+
+
+
+
+
