@@ -62,6 +62,7 @@ def file2matrix(filename):
 
 mat, labels = file2matrix(path.join(os.sys.path[0], 'datingTestSet2.txt'))
 fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.scatter(mat[:,1], mat[:,2], 15 * array(labels), 15 * array(labels))
+ax = fig.add_subplot(1, 1, 1)
+ax.scatter(mat[:, 1], mat[:, 2])
+# ax.scatter(mat[:, 1], mat[:, 2], 15 * array(labels), 15 * array(labels))
 plt.show()
