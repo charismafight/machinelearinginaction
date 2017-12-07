@@ -66,3 +66,4 @@ ax = fig.add_subplot(1, 1, 1)
 ax.scatter(mat[:, 1], mat[:, 2])
 # ax.scatter(mat[:, 1], mat[:, 2], 15 * array(labels), 15 * array(labels))
 plt.show()
+# 
