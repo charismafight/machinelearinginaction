@@ -1,5 +1,5 @@
 # machinelearinginaction
-codes for machinelearn[ing in action](https://www.manning.com/books/machine-learning-in-action)
+codes for [machinelearning in action](https://www.manning.com/books/machine-learning-in-action)
 
 dependencies:
 numpy
