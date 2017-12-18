@@ -5,6 +5,7 @@ import os.path as path
 import os
 import matplotlib
 from matplotlib import pyplot as plt
+import itertools
 
 
 def create_dataset():
@@ -29,10 +30,12 @@ def classify0(inX, dataset, labels, k):
     class_count = {}
     # 计算前k个里面每一类别出现的次数
     for i in range(k):
+        # sorted_dis[i]逐个取0 1 2，把label中的对应结果放入v，key为labels中结果的值，value为出现次数
         v = labels[sorted_dis[i]]
         class_count[v] = class_count.get(v, 0) + 1
     sorted_class_count = sorted(
         class_count.items(), key=operator.itemgetter(1), reverse=True)
+    # 返回的是出现次数最多的类型
     return sorted_class_count[0][0]
 
 
@@ -106,6 +109,39 @@ def datingClassTest():
             error_count += 1
 
     print("the total error: %d" % error_count)
+    print("the total error rate is: %f" %
+          (float(error_count) / float(num_test_vecs)))
 
 
-datingClassTest()
+# datingClassTest()
+
+
+def classisfy_persion():
+    result_list = ['not at all', 'a little doses', 'in large doses']
+    percent_tats = float(
+        input(r'percentage of time spent playing video games?'))
+    icecream = float(input(r'liters of ice cream consumed per year?'))
+    ff_miles = float(input(r'frequent flier miles earned per year?'))
+    mat, labels = file2matrix(path.join(os.sys.path[0], 'datingTestSet2.txt'))
+    norm_mat, ranges, minVals = auto_norm(mat)
+    inArr = array([ff_miles, percent_tats, icecream])
+    result = classify0((inArr - minVals) / ranges, mat, labels, 3)
+    print(result_list[result - 1])
+
+
+# classisfy_persion()
+
+
+def matrix_to_vector(filename):
+    rows = open(filename).readlines()
+    return ''.join([x.replace('\n', '') for x in rows])
+
+
+#print(matrix_to_vector(path.join(os.sys.path[0], 'testDigits/0_0.txt')))
+
+
+def handwriting_test():
+    pass
+
+
+handwriting_test()
