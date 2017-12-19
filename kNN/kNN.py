@@ -2,10 +2,17 @@
 from numpy import *
 import operator
 import os.path as path
+from os import listdir
 import os
 import matplotlib
 from matplotlib import pyplot as plt
 import itertools
+import re
+import gc
+
+
+def convert_path(relative_path):
+    return path.join(os.sys.path[0], relative_path)
 
 
 def create_dataset():
@@ -134,14 +141,41 @@ def classisfy_persion():
 
 def matrix_to_vector(filename):
     rows = open(filename).readlines()
-    return ''.join([x.replace('\n', '') for x in rows])
+    str_line = ''.join([x.replace('\n', '') for x in rows])
+    return array([float(x) for x in str_line])
 
 
-#print(matrix_to_vector(path.join(os.sys.path[0], 'testDigits/0_0.txt')))
+# print(matrix_to_vector(path.join(os.sys.path[0], 'testDigits/0_0.txt')))
 
 
 def handwriting_test():
-    pass
+    training_file_path = convert_path('trainingDigits')
+    training_files = listdir(training_file_path)
+    dataset = zeros((len(training_files), 1024))
+
+    hwlabels = []
+    # use re to get the number
+    for i, f in enumerate(training_files):
+        hwlabels.append(int(re.search('^([0-9])_([0-9])+\.txt$', f).group(1)))
+        v = matrix_to_vector(path.join(training_file_path, f))
+        dataset[i] = v
+
+    # test data
+    test_file_path = convert_path('testDigits')
+    test_files = listdir(test_file_path)
+    error_count = 0
+
+    for f in test_files:
+        num = int(re.search('^([0-9])_([0-9])+\.txt$', f).group(1))
+        f_vector = matrix_to_vector(path.join(test_file_path, f))
+        classify_result = classify0(f_vector, dataset, hwlabels, 3)
+        gc.collect()
+        print('knn result:%s,actual:%s' % (classify_result, num))
+        if classify_result != num:
+            error_count += 1
+
+    print('the total errors is:%d' % error_count)
+    print('the error rate is:%f' % (error_count / float(len(test_files))))
 
 
 handwriting_test()
