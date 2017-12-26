@@ -30,4 +30,3 @@ def query(dataSet, col_num, value):
 ds = get_dataset()[0]
 # ds[0][-1] = 'maybe'
 # print(entropy(ds))
-# test
