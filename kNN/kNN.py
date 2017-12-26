@@ -168,7 +168,7 @@ def handwriting_test():
     for f in test_files:
         num = int(re.search('^([0-9])_([0-9])+\.txt$', f).group(1))
         f_vector = matrix_to_vector(path.join(test_file_path, f))
-        classify_result = classify0(f_vector, dataset, hwlabels, 3)
+        classify_result = classify0(f_vector, dataset, hwlabels, 5)
         gc.collect()
         print('knn result:%s,actual:%s' % (classify_result, num))
         if classify_result != num:
