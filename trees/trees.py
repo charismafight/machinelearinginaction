@@ -31,6 +31,7 @@ def choose_best_feature(data):
 
 
 # print(choose_best_feature(get_dataset()[0]))
+# modify auto fetch config
 def majority_count(classes):
     counts = defaultdict(int)
     for v in classes:
