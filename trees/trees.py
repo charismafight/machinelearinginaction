@@ -1,14 +1,13 @@
 from math import log
+import operator
+from collections import defaultdict
 
 
 def entropy(data):
-    label = {}
+    label = defaultdict(int)
     for x in data:
-        current_label = x[-1]
-        if current_label not in label.keys():
-            label[current_label] = 1
-        else:
-            label[current_label] += 1
+        if x in label.keys():
+            label[x] += 1
     result = 0.0
     for x in label.items():
         prob = float(int(x[1]) / len(data))
@@ -17,16 +16,26 @@ def entropy(data):
 
 
 def get_dataset():
-    dataSet = [[1, 1, 'yes'], [1, 1, 'yes'], [1, 0, 'no'], [0, 1, 'no'],
-               [0, 1, 'no']]
+    dataSet = [[1, '1', 'yes'], [1, '1', 'yes'], [1, '0', 'no'],
+               [0, '1', 'no'], [0, '1', 'no']]
     labels = ['no surfacing', 'flippers']
     return dataSet, labels
 
 
-def query(dataSet, col_num, value):
-    return [x for x in ds if dataSet[col_num] == value]
+def choose_best_feature(data):
+    """
+    return the best feature column number
+    """
+    entropies = [entropy(x) for x in zip(*data)]
+    return entropies.index(max(entropies))
 
 
-ds = get_dataset()[0]
-# ds[0][-1] = 'maybe'
-# print(entropy(ds))
+# print(choose_best_feature(get_dataset()[0]))
+def majority_count(classes):
+    counts = defaultdict(int)
+    for v in classes:
+        if v in counts:
+            counts[v] += 1
+    sorted_class = sorted(
+        counts.items(), key=operator.itemgetter(1), reverse=True)
+    return sorted_class[0][0]
