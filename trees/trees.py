@@ -41,18 +41,38 @@ def majority_count(classes):
     return sorted_class[0][0]
 
 
+def splitDataSet(dataSet, axis, value):
+    retDataSet = []
+    for featVec in dataSet:
+        if featVec[axis] == value:
+            reducedFeatVec = featVec[:axis]
+            reducedFeatVec.extend(featVec[axis + 1:])
+            retDataSet.append(reducedFeatVec)
+    return retDataSet
+
+
 def build_tree(dataset, labels):
-    if len(dataset[0]) == 1:
-        return majority_count(dataset)
+    class_list = [x[-1] for x in dataset]
+    if class_list.count(class_list[0]) == len(class_list):
+        return majority_count(class_list)
 
     if len(set([x[-1] for x in dataset])) == 1:
         return dataset[0][-1]
 
     # get the best feature and contribute a dict with bestfeature name(from the label) as its key
     current_feature_index = best_feature_index(dataset)
-    my_tree = {labels[current_feature_index]: {}}
-    del (dataset[current_feature_index])
-    for f in set([dataset[current_feature_index]]):
-        f_dataset = [x for x in dataset if x[current_feature_index] == f]
-        my_tree[labels[current_feature_index]][f] = build_tree(f_dataset, labels)
+    current_feature_name = labels[current_feature_index]
+    my_tree = {current_feature_name: {}}
+    # only delete column before loop,because looping(different value of the same attribute) should use the same label
+    # so labels will be changed in the loop,we use a local variable to save it
+    del(labels[current_feature_index])
+
+    trans_dataset = list(map(set, zip(*dataset)))
+    for f in trans_dataset[current_feature_index]:
+        sub_label = labels[:]
+        f_dataset = splitDataSet(dataset, current_feature_index, f)
+        my_tree[current_feature_name][f] = build_tree(f_dataset, sub_label)
     return my_tree
+
+
+print(build_tree(*get_dataset()))
